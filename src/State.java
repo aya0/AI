@@ -14,12 +14,13 @@ public class State {
         Waiting = waiting;
     }
 
-    public State(int prosperity, int foodCount, int energyCount, int materialsCount, int moneySpent) {
+    public State(int prosperity, int foodCount, int energyCount, int materialsCount, int moneySpent, boolean Waiting) {
         Prosperity = prosperity;
         FoodCount = foodCount;
         EnergyCount = energyCount;
         MaterialsCount = materialsCount;
         MoneySpent = moneySpent;
+        Waiting = Waiting;
     }
 
     public int getFoodCount() {

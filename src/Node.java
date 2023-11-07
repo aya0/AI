@@ -1,12 +1,43 @@
+
 public class Node {
     
+
 private Node Parent;
 private State currState;
-private Action Action;
+private ActionType Action;
 private int PathCost;
 private int Depth;
+private Node[] Children;
+private int Heuristic;
 
 
+public int getHeuristic() {
+    return Heuristic;
+}
+
+
+public void setHeuristic(int heuristic) {
+    Heuristic = heuristic;
+}
+
+
+public Node(Node parent, State currState, ActionType action, int pathCost, int depth) {
+        Parent = parent;
+        this.currState = currState;
+        Action = action;
+        PathCost = pathCost;
+        Depth = depth;
+        Children = new Node[6];
+    }
+
+
+public Node[] getChildren() {
+    return Children;
+}
+
+public void setChildren(Node[] children) {
+    Children = children;
+}
 
 public int getDepth() {
     return Depth;
@@ -24,11 +55,11 @@ public void setPathCost(int pathCost) {
     PathCost = pathCost;
 }
 
-public Action getAction() {
+public ActionType getAction() {
     return Action;
 }
 
-public void setAction(Action action) {
+public void setAction(ActionType action) {
     Action = action;
 }
 
