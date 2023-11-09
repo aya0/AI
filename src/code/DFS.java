@@ -1,49 +1,34 @@
+package code;
 import java.util.*;
 
-public class IDS extends GenericSearch {
+public class DFS extends GenericSearch {
+    
+    public DFS()
+    {
+        super();
+    }
 
-    @Override
+
+    
     public String Search(String searchProblem, Collection<Node> collection) {
         Stack<Node> stack = (Stack<Node>)collection;
-        Node Root=  this.GenerateInitial(searchProblem);
-        int Depth = 0;
-        String Result;
-        do {
-            stack.push(Root);
-            Result = helper(stack, Depth);
-            Depth ++;
-
-        }
-        while(Result.equals("continue") );
-        return Result;
-
-        
-    }
-    private String helper(Stack<Node> stack , int depth){
+       // queue.add(this.GenerateInitial(searchProblem));
+       stack.push(this.GenerateInitial(searchProblem));
         Node Curr;
-        boolean Continue = false;
         while(!stack.isEmpty())
         {
             Curr = stack.pop();
             this.nodesExpanded++;
-            if(Curr.getCurrState().getProsperity()>=100)
+            if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
             {
-                return "Solution Found";
-            }
-            else
-            {
-            if(depth==Curr.getDepth()){
-                if(!(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000))
-                {
-                    Continue=true;
-                }
+                continue;
             }
             else
             {
     
-            if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
+            if(Curr.getCurrState().getProsperity()>=100)
             {
-                continue;
+                return "Solution Found";
             }
             else{
                 if(!Curr.getCurrState().isWaiting())
@@ -67,19 +52,15 @@ public class IDS extends GenericSearch {
                 stack.push(this.action.BuildTwo(Curr)); 
             }
             }
-        }
             
         } 
         }
 
-        if(Continue){
-            return "continue";
-        }
-        else{
-            return "’NOSOLUTION’";        
-        }
-
+        return "’NOSOLUTION’";
     }
 
+
+
+    
     
 }

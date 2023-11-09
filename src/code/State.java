@@ -1,3 +1,4 @@
+package code;
 public class State {
     private int Prosperity;
     private int FoodCount;

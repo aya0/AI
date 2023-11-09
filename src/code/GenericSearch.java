@@ -1,9 +1,10 @@
+package code;
 import java.util.*;
 
 public abstract class GenericSearch {
     Action action;
     int nodesExpanded;
-    public abstract String Search(String searchProblem, Collection<Node> collection);  
+    public abstract  String Search(String searchProblem, Collection<Node> collection);  
 
     public GenericSearch(){
         nodesExpanded=0;
@@ -51,6 +52,14 @@ public abstract class GenericSearch {
         String[] BuildOneData = split[6].split(",");
         String[]BuildTwoData = split[7].split(",");
 
+        System.out.println(split);
+        System.out.println(initial);
+        System.out.println(price);
+        System.out.println(FoodData);
+        System.out.println(MaterialsData);
+        System.out.println(EnergyData);
+        System.out.println(BuildOneData);
+        System.out.println(BuildTwoData);
         int[] empty = {};
         ActionAttributes[] ActionData = new ActionAttributes[6];
         ActionAttributes Food = new ActionAttributes(Integer.parseInt(FoodData[0]), empty, Integer.parseInt(FoodData[1]), 0, Integer.parseInt(price[0]));
