@@ -7,7 +7,7 @@ private State currState;
 private ActionType Action;
 private int PathCost;
 private int Depth;
-private Node[] Children;
+// private Node[] Children;
 private int Heuristic;
 
 
@@ -27,17 +27,17 @@ public Node(Node parent, State currState, ActionType action, int pathCost, int d
         Action = action;
         PathCost = pathCost;
         Depth = depth;
-        Children = new Node[6];
+        // Children = new Node[6];
     }
 
 
-public Node[] getChildren() {
-    return Children;
-}
+// public Node[] getChildren() {
+//     return Children;
+// }
 
-public void setChildren(Node[] children) {
-    Children = children;
-}
+// public void setChildren(Node[] children) {
+//     Children = children;
+// }
 
 public int getDepth() {
     return Depth;
@@ -77,6 +77,10 @@ public Node getParent() {
 
 public void setParent(Node parent) {
     Parent = parent;
+}
+
+public int getPriority(){
+    return PathCost;
 }
 
 

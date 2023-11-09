@@ -5,6 +5,56 @@ public class State {
     private int MaterialsCount;
     private int MoneySpent;
     private boolean Waiting;
+    private int WaitingTime;
+    private int WaitingFor;
+    private String Plan;
+    //0 if not waiting
+    //1 for food
+    //2 for energy
+    //3 for materials
+
+
+
+    
+
+
+    public State(int prosperity, int foodCount, int energyCount, int materialsCount, int moneySpent, boolean waiting, int waitingTime, int waitingFor, String plan) {
+        Prosperity = prosperity;
+        FoodCount = foodCount;
+        EnergyCount = energyCount;
+        MaterialsCount = materialsCount;
+        MoneySpent = moneySpent;
+        Waiting = waiting;
+        WaitingTime = waitingTime;
+        WaitingFor = waitingFor;
+        Plan = plan;
+
+    }
+
+    public String getPlan() {
+        return Plan;
+    }
+
+
+    public void setPlan(String plan) {
+        Plan = plan;
+    }
+    public int getWaitingFor() {
+        return WaitingFor;
+    }
+
+
+    public void setWaitingFor(int waitingFor) {
+        WaitingFor = waitingFor;
+    }
+
+    public int getWaitingTime() {
+        return WaitingTime;
+    }
+
+    public void setWaitingTime(int waitingTime) {
+        this.WaitingTime = waitingTime;
+    }
 
     public boolean isWaiting() {
         return Waiting;
@@ -13,16 +63,6 @@ public class State {
     public void setWaiting(boolean waiting) {
         Waiting = waiting;
     }
-
-    public State(int prosperity, int foodCount, int energyCount, int materialsCount, int moneySpent, boolean Waiting) {
-        Prosperity = prosperity;
-        FoodCount = foodCount;
-        EnergyCount = energyCount;
-        MaterialsCount = materialsCount;
-        MoneySpent = moneySpent;
-        Waiting = Waiting;
-    }
-
     public int getFoodCount() {
         return FoodCount;
     }

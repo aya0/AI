@@ -2,19 +2,25 @@ public class Action {
     //aa[0]=> energy
     //aa[1]=> food
     //aa[2]=> materials
-    //aa[3]=> wair
+    //aa[3]=> wait
     //aa[4]=> build1
     //aa[5]=> build2
 
-    public class ActionAttributes{
-        int Amount;
-        int[] ResourceConsumption;
-        int Delay;
-        int IncreaseInProsperity;
-        int Price;
-    }
+    
     private ActionAttributes[] ActionsAttributes;
 
+
+    public Action(ActionAttributes[] actionsAttributes) {
+        ActionsAttributes = actionsAttributes;
+    }
+
+    public ActionAttributes[] getActionsAttributes() {
+        return ActionsAttributes;
+    }
+
+    public void setActionsAttributes(ActionAttributes[] actionsAttributes) {
+        ActionsAttributes = actionsAttributes;
+    }
 
     public Node DoAction(ActionType Type, Node node){
         Node n=node;
@@ -41,8 +47,15 @@ public class Action {
         int pathCost = n.getPathCost()+ ActionsAttributes[0].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[0].Price;
         boolean wait = ActionsAttributes[0].Delay==0?true:false;
+        if(!wait){
+            energy += ActionsAttributes[0].Amount;
+
+        if(energy>50) energy = 50;
+        }
         int prosperity = state.getProsperity();
-        State newState = new State(prosperity, food, energy, materials, moneySpent,wait);
+        int waitingFor = wait?2:0;
+        String plan = state.getPlan()+"RequestEnergy,";
+        State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[0].Delay,waitingFor, plan);
     return new Node(n, newState, ActionType.REQENERGY , pathCost, depth);
     }
 
@@ -56,8 +69,17 @@ public class Action {
         int pathCost = n.getPathCost()+ ActionsAttributes[1].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[1].Price;
         boolean wait = ActionsAttributes[0].Delay==0?true:false;
-         int prosperity = state.getProsperity();
-        State newState = new State(prosperity, food, energy, materials, moneySpent,wait);
+        if(!wait){
+            food += ActionsAttributes[1].Amount;
+
+        if(food>50) food = 50;
+        }
+        
+        int prosperity = state.getProsperity();
+        int waitingFor = wait?1:0;
+        String plan = state.getPlan()+"RequestFood,";
+
+        State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[1].Delay,waitingFor, plan);
     return new Node(n, newState, ActionType.REQFOOD , pathCost, depth);
     }
 
@@ -71,8 +93,17 @@ public class Action {
         int pathCost = n.getPathCost()+ ActionsAttributes[2].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[2].Price;
         boolean wait = ActionsAttributes[0].Delay==0?true:false;
-         int prosperity = state.getProsperity();
-        State newState = new State(prosperity, food, energy, materials, moneySpent,wait);
+        
+        if(!wait){
+            materials += ActionsAttributes[2].Amount;
+
+        if(materials>50) materials = 50;
+        }
+        int prosperity = state.getProsperity();
+        int waitingFor = wait?3:0;
+        String plan = state.getPlan()+"RequestMaterials,";
+
+        State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[2].Delay,waitingFor, plan);
     return new Node(n, newState, ActionType.REQMATERIALS , pathCost, depth);
     }
 
@@ -86,7 +117,36 @@ public class Action {
         int pathCost = n.getPathCost()+ ActionsAttributes[3].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[3].Price;
         int prosperity = state.getProsperity();
-        State newState = new State(prosperity, food, energy, materials, moneySpent, state.isWaiting());
+        int waitingtime = state.getWaitingTime();
+        boolean waiting = state.isWaiting();
+        int waitingFor=0;
+        if(waiting){
+            waitingtime--;
+            if(waitingtime==0)
+            {
+                waiting=false;
+                switch(state.getWaitingFor())
+                {
+                    case 1: food+= ActionsAttributes[1].Amount; 
+                    if(food>50) food=50;
+                    break;
+                    case 2: energy+= ActionsAttributes[0].Amount; 
+                    if(energy>50) energy =50;
+                    break;
+                    case 3: materials += ActionsAttributes[2].Amount;
+                    if(materials>50) materials = 50;
+                    break;
+                    default:break;
+                }
+            }
+            else
+            {
+                waitingFor = state.getWaitingFor();
+            }
+        }
+        String plan = state.getPlan()+"WAIT,";
+
+        State newState = new State(prosperity, food, energy, materials, moneySpent, waiting,waitingtime, waitingFor, plan);
     return new Node(n, newState, ActionType.WAIT , pathCost, depth);
     }
 
@@ -99,8 +159,37 @@ public class Action {
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[4].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[4].Price;
-        int prosperity = state.getProsperity()+ActionsAttributes[5].IncreaseInProsperity;
-        State newState = new State(prosperity, food, energy, materials, moneySpent,state.isWaiting());
+        int prosperity = state.getProsperity()+ActionsAttributes[4].IncreaseInProsperity;
+        boolean waiting = state.isWaiting();
+        int waitingtime = state.getWaitingTime();
+        int waitingFor=0;
+        if(waiting){
+            waitingtime--;
+            if(waitingtime==0)
+            {
+                waiting=false;
+                switch(state.getWaitingFor())
+                {
+                    case 1: food+= ActionsAttributes[1].Amount; 
+                    if(food>50) food=50;
+                    break;
+                    case 2: energy+= ActionsAttributes[0].Amount; 
+                    if(energy>50) energy =50;
+                    break;
+                    case 3: materials += ActionsAttributes[2].Amount;
+                    if(materials>50) materials = 50;
+                    break;
+                    default:break;
+                }
+            }
+            else
+            {
+                waitingFor = state.getWaitingFor();
+            }
+        }
+        String plan = state.getPlan()+"BUILD1,";
+
+        State newState = new State(prosperity, food, energy, materials, moneySpent,waiting,waitingtime, waitingFor, plan);
     return new Node(n, newState, ActionType.BUILD1 , pathCost, depth);
     }
 
@@ -113,8 +202,36 @@ public class Action {
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[5].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[5].Price;
-         int prosperity = state.getProsperity()+ActionsAttributes[5].IncreaseInProsperity;
-        State newState = new State(prosperity, food, energy, materials, moneySpent,state.isWaiting());
+        int prosperity = state.getProsperity()+ActionsAttributes[5].IncreaseInProsperity;
+        boolean waiting = state.isWaiting();
+        int waitingtime = state.getWaitingTime();
+        int waitingFor=0;
+        if(waiting){
+            waitingtime--;
+            if(waitingtime==0)
+            {
+                waiting=false;
+                switch(state.getWaitingFor())
+                {
+                    case 1: food+= ActionsAttributes[1].Amount; 
+                    if(food>50) food=50;
+                    break;
+                    case 2: energy+= ActionsAttributes[0].Amount; 
+                    if(energy>50) energy =50;
+                    break;
+                    case 3: materials += ActionsAttributes[2].Amount;
+                    if(materials>50) materials = 50;
+                    break;
+                    default:break;
+                }
+            }
+            else
+            {
+                waitingFor = state.getWaitingFor();
+            }
+        }
+        String plan = state.getPlan()+"BUILD2,";
+        State newState = new State(prosperity, food, energy, materials, moneySpent,waiting,waitingtime,waitingFor, plan);
     return new Node(n, newState, ActionType.BUILD2 , pathCost, depth);
     }
 
