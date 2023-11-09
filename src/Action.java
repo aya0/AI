@@ -8,6 +8,9 @@ public class Action {
 
     
     private ActionAttributes[] ActionsAttributes;
+    int maxBProsperity;
+    int minBPrice;
+    int minRatio;
 
 
     public Action(ActionAttributes[] actionsAttributes) {
@@ -56,7 +59,9 @@ public class Action {
         int waitingFor = wait?2:0;
         String plan = state.getPlan()+"RequestEnergy,";
         State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[0].Delay,waitingFor, plan);
-    return new Node(n, newState, ActionType.REQENERGY , pathCost, depth);
+        int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
+        int heuristic2 = ((100-prosperity)*minRatio);
+    return new Node(n, newState, ActionType.REQENERGY , pathCost, depth, heuristic1,heuristic2);
     }
 
      public Node RequestFoodAction(Node n)
@@ -78,9 +83,10 @@ public class Action {
         int prosperity = state.getProsperity();
         int waitingFor = wait?1:0;
         String plan = state.getPlan()+"RequestFood,";
-
         State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[1].Delay,waitingFor, plan);
-    return new Node(n, newState, ActionType.REQFOOD , pathCost, depth);
+        int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
+        int heuristic2 = ((100-prosperity)*minRatio);
+    return new Node(n, newState, ActionType.REQFOOD , pathCost, depth,heuristic1,heuristic2);
     }
 
     public Node RequestMaterialAction(Node n)
@@ -104,7 +110,10 @@ public class Action {
         String plan = state.getPlan()+"RequestMaterials,";
 
         State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[2].Delay,waitingFor, plan);
-    return new Node(n, newState, ActionType.REQMATERIALS , pathCost, depth);
+
+        int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
+        int heuristic2 = ((100-prosperity)*minRatio);
+    return new Node(n, newState, ActionType.REQMATERIALS , pathCost, depth,heuristic1,heuristic2);
     }
 
     public Node Wait(Node n)
@@ -147,7 +156,10 @@ public class Action {
         String plan = state.getPlan()+"WAIT,";
 
         State newState = new State(prosperity, food, energy, materials, moneySpent, waiting,waitingtime, waitingFor, plan);
-    return new Node(n, newState, ActionType.WAIT , pathCost, depth);
+
+        int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
+        int heuristic2 = ((100-prosperity)*minRatio);
+    return new Node(n, newState, ActionType.WAIT , pathCost, depth,heuristic1,heuristic2);
     }
 
     public Node BuildOne(Node n)
@@ -190,7 +202,10 @@ public class Action {
         String plan = state.getPlan()+"BUILD1,";
 
         State newState = new State(prosperity, food, energy, materials, moneySpent,waiting,waitingtime, waitingFor, plan);
-    return new Node(n, newState, ActionType.BUILD1 , pathCost, depth);
+
+        int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
+        int heuristic2 = ((100-prosperity)*minRatio);
+    return new Node(n, newState, ActionType.BUILD1 , pathCost, depth,heuristic1,heuristic2);
     }
 
     public Node BuildTwo(Node n)
@@ -232,7 +247,10 @@ public class Action {
         }
         String plan = state.getPlan()+"BUILD2,";
         State newState = new State(prosperity, food, energy, materials, moneySpent,waiting,waitingtime,waitingFor, plan);
-    return new Node(n, newState, ActionType.BUILD2 , pathCost, depth);
+
+        int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
+        int heuristic2 = ((100-prosperity)*minRatio);
+    return new Node(n, newState, ActionType.BUILD2 , pathCost, depth,heuristic1,heuristic2);
     }
 
 }

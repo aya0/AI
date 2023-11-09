@@ -83,11 +83,17 @@ public abstract class GenericSearch {
         ActionData[4]= BuildOne;
         ActionData[5]= BuildTwo;
 
+       
         Action action = new Action(ActionData);
         this.action = action;
-        State s0 = new State(Integer.parseInt(split[0]), Integer.parseInt(initial[0]), Integer.parseInt(initial[1]),Integer.parseInt(initial[2]), 0, false,0,0, "");
+        action.maxBProsperity = BuildOne.IncreaseInProsperity>BuildTwo.IncreaseInProsperity?BuildOne.IncreaseInProsperity:BuildTwo.IncreaseInProsperity;
+        action.minBPrice = priceBuild1>priceBuild2?priceBuild2:priceBuild1;
+        action.minRatio = (priceBuild1/BuildOne.IncreaseInProsperity)>(priceBuild2/BuildTwo.IncreaseInProsperity)?(priceBuild2/BuildTwo.IncreaseInProsperity):(priceBuild1/BuildOne.IncreaseInProsperity);
 
-        Node Root = new Node(null, s0, null, 0, 0);
+        State s0 = new State(Integer.parseInt(split[0]), Integer.parseInt(initial[0]), Integer.parseInt(initial[1]),Integer.parseInt(initial[2]), 0, false,0,0, "");
+        int heuristic1 = ((100-Integer.parseInt(split[0]))/(action.maxBProsperity)*action.minBPrice);
+        int heuristic2 = ((100-Integer.parseInt(split[0]))*action.minRatio);
+        Node Root = new Node(null, s0, null, 0, 0, heuristic1,heuristic2);
         return Root;
     }
     
