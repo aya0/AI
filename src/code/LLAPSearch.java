@@ -8,11 +8,10 @@ public class LLAPSearch{
 
     public static String solve(String initialState, String strategy, boolean visualize)
     {
-        BFS bfs = new BFS();
-        // Queue<Node> queue =(Queue<Node>) (new Collection<Node>());
+       String result="";
         switch(strategy){
-            case "BF": // bfs.Search(initialState,new Queue<Node>());
-            case "DF":
+            case "BF":  BFS bfs = new BFS();result = bfs.Search(initialState,new ArrayDeque<Node>()); break;
+            case "DF":  DFS dfs = new DFS(); result = dfs.Search(initialState, new Stack<Node>());break;
             case "ID":
             case "UC":
             case "GR1":
@@ -20,7 +19,7 @@ public class LLAPSearch{
             case "AS1":
             case "AS2":
         }
-        return "";
+        return result;
     }
     public static void main(String[]args){
         
