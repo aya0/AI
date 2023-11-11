@@ -78,7 +78,8 @@ public class Action {
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[1].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[1].Price;
-        boolean wait = ActionsAttributes[0].Delay==0?false:true;
+        boolean wait = ActionsAttributes[1].Delay==0?false:true;
+
         if(!wait){
             food += ActionsAttributes[1].Amount;
 
@@ -89,6 +90,7 @@ public class Action {
         int waitingFor = wait?1:0;
         String plan = state.getPlan()+"RequestFood,";
         State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[1].Delay,waitingFor, plan);
+        System.out.println("AAAAAAAAAAA" +ActionsAttributes[1].Delay);
         int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
         int heuristic2 = ((100-prosperity)*minRatio);
     return new Node(n, newState, ActionType.REQFOOD , pathCost, depth,heuristic1,heuristic2);
@@ -103,7 +105,7 @@ public class Action {
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[2].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[2].Price;
-        boolean wait = ActionsAttributes[0].Delay==0?false:true;
+        boolean wait = ActionsAttributes[2].Delay==0?false:true;
         
         if(!wait){
             materials += ActionsAttributes[2].Amount;
@@ -132,6 +134,8 @@ public class Action {
         int moneySpent = state.getMoneySpent() + ActionsAttributes[3].Price;
         int prosperity = state.getProsperity();
         int waitingtime = state.getWaitingTime();
+        System.out.println("OOOOOOOOO"+ waitingtime);
+
         boolean waiting = state.isWaiting();
         int waitingFor=0;
         if(waiting){
@@ -184,6 +188,7 @@ public class Action {
             waitingtime--;
             if(waitingtime==0)
             {
+                System.out.println("Yes da5alt hena");
                 waiting=false;
                 switch(state.getWaitingFor())
                 {

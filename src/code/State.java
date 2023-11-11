@@ -125,7 +125,8 @@ public class State {
         " Food = " + this.getFoodCount()+
         " Energy = " + this.getEnergyCount()+
         " Materials =" + this.getMaterialsCount()+
-        " Money Spent = " + this.getMoneySpent()
+        " Money Spent = " + this.getMoneySpent()+
+        "Am I waiting = " + this.isWaiting()
       );
     }
 
