@@ -24,7 +24,8 @@ public class IDS extends GenericSearch {
         
     }
     private String helper(Stack<Node> stack , int depth){
-        Node Curr;
+        this.action.hashset.clear();
+        Node Curr, Next;
         boolean Continue = false;
         while(!stack.isEmpty())
         {
@@ -35,9 +36,13 @@ public class IDS extends GenericSearch {
                 System.out.println(this.nodesExpanded);
                 Curr.getCurrState().print();
             }
+            if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()+this.action.MinActionPrice>100000)
+            {
+                continue;
+            }
             if(Curr.getCurrState().getProsperity()>=100)
             {
-                return Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) + Curr.getCurrState().getMoneySpent()+";"+ this.nodesExpanded;
+                return Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) + ";"+Curr.getCurrState().getMoneySpent()+";"+ this.nodesExpanded;
             }
             else
             {
@@ -55,28 +60,105 @@ public class IDS extends GenericSearch {
                 continue;
             }
             else{
-                if(!Curr.getCurrState().isWaiting())
-            {
-                stack.push(this.action.RequestFoodAction(Curr));
-                stack.push(this.action.RequestMaterialAction(Curr));
-                stack.push(this.action.RequestEnergyAction(Curr));
+            //     if(!Curr.getCurrState().isWaiting())
+            // {
+            //     Next = this.action.RequestFoodAction(Curr);
+            //     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+            //     {
+            //         stack.push(Next);
+            //         this.action.hashset.add(Next.getCurrState().HashsetString());
+            //     }
+            //     Next = this.action.RequestMaterialAction(Curr);
+            //     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+            //     {
+            //         stack.push(Next);
+            //         this.action.hashset.add(Next.getCurrState().HashsetString());
+            //     }
+            //     Next = this.action.RequestEnergyAction(Curr);
+            //     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+            //     {
+            //         stack.push(Next);
+            //         this.action.hashset.add(Next.getCurrState().HashsetString());
+            //     }
                 
-            }
-            stack.push(this.action.Wait(Curr));
-            ActionAttributes[] ActionData= this.action.getActionsAttributes();
-            //For build1 we have to check that we have enough of all the available resources and enough money for the build
-            State s = Curr.getCurrState();
+            // }
+            // stack.push(this.action.Wait(Curr));
+            // ActionAttributes[] ActionData= this.action.getActionsAttributes();
+            // //For build1 we have to check that we have enough of all the available resources and enough money for the build
+            // State s = Curr.getCurrState();
 
-            if(s.getFoodCount()>ActionData[4].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[4].ResourceConsumption[1] && s.getEnergyCount()>ActionData[4].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[4].Price<100000))
-            {
-                stack.push(this.action.BuildOne(Curr)); 
-            }
+            // if(s.getFoodCount()>ActionData[4].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[4].ResourceConsumption[1] && s.getEnergyCount()>ActionData[4].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[4].Price<100000))
+            // {
+            //     Next = this.action.BuildOne(Curr);
+            //     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+            //     {
+            //         stack.push(Next);
+            //         this.action.hashset.add(Next.getCurrState().HashsetString());
+            //     } 
+            // }
+            // if(s.getFoodCount()>ActionData[5].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[5].ResourceConsumption[1] && s.getEnergyCount()>ActionData[5].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[5].Price<100000))
+            // {
+            //     Next = this.action.BuildTwo(Curr);
+            //     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+            //     {
+            //         stack.push(Next);
+            //         this.action.hashset.add(Next.getCurrState().HashsetString());
+            //     } 
+            // }
+            // }
+            State s = Curr.getCurrState();
+            ActionAttributes[] ActionData= this.action.getActionsAttributes();
             if(s.getFoodCount()>ActionData[5].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[5].ResourceConsumption[1] && s.getEnergyCount()>ActionData[5].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[5].Price<100000))
             {
-                stack.push(this.action.BuildTwo(Curr)); 
+                Next = this.action.BuildTwo(Curr);
+                if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                {
+                    stack.push(Next);
+                    this.action.hashset.add(Next.getCurrState().HashsetString());
+                } 
             }
+            if(s.getFoodCount()>ActionData[4].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[4].ResourceConsumption[1] && s.getEnergyCount()>ActionData[4].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[4].Price<100000))
+            {
+                Next = this.action.BuildOne(Curr);
+                if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                {
+                    stack.push(Next);
+                    this.action.hashset.add(Next.getCurrState().HashsetString());
+                } 
             }
+            Next = this.action.Wait(Curr);
+            if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                {
+                    stack.push(Next);
+                    this.action.hashset.add(Next.getCurrState().HashsetString());
+                } 
+                if(!Curr.getCurrState().isWaiting())
+            {
+                Next = this.action.RequestEnergyAction(Curr);
+                if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                {
+                    stack.push(Next);
+                    this.action.hashset.add(Next.getCurrState().HashsetString());
+                }
+                
+                Next = this.action.RequestMaterialAction(Curr);
+                if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                {
+                    stack.push(Next);
+                    this.action.hashset.add(Next.getCurrState().HashsetString());
+                }
+                Next = this.action.RequestFoodAction(Curr);
+                if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                {
+                    stack.push(Next);
+                    this.action.hashset.add(Next.getCurrState().HashsetString());
+                }
+                
+                
+            }
+            
         }
+    }
             
         } 
         }

@@ -18,7 +18,7 @@ public class AS extends GenericSearch{
             queue = new PriorityQueue<>(Comparator.comparingInt(Node::getAS2));
         }
         queue.add(this.GenerateInitial(searchProblem));
-        Node Curr;
+        Node Curr, Next;
         int MoneySpent = 0;
         String result = "";
         while(!queue.isEmpty())
@@ -44,28 +44,57 @@ public class AS extends GenericSearch{
                 else{
                     if(!Curr.getCurrState().isWaiting())
                 {
-                    queue.add(this.action.RequestFoodAction(Curr));
-                    queue.add(this.action.RequestMaterialAction(Curr));
-                    queue.add(this.action.RequestEnergyAction(Curr));
+                    Next = this.action.RequestFoodAction(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        queue.add(Next);
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                    }
+                    
+                    Next = this.action.RequestMaterialAction(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        queue.add(Next);
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                    }
+                    
+                    Next = this.action.RequestEnergyAction(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        queue.add(Next);
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                    }
                 }
-                queue.add(this.action.Wait(Curr));
+                Next = this.action.Wait(Curr);
+                if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        queue.add(Next);
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                    }
                 ActionAttributes[] ActionData= this.action.getActionsAttributes();
                 //For build1 we have to check that we have enough of all the available resources and enough money for the build
                 State s = Curr.getCurrState();
 
                 if(s.getFoodCount()>ActionData[4].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[4].ResourceConsumption[1] && s.getEnergyCount()>ActionData[4].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[4].Price<100000))
                 {
-                    queue.add(this.action.BuildOne(Curr)); 
+                    Next = this.action.BuildOne(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        queue.add(Next);
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                    } 
                 }
                 if(s.getFoodCount()>ActionData[5].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[5].ResourceConsumption[1] && s.getEnergyCount()>ActionData[5].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[5].Price<100000))
                 {
-                    queue.add(this.action.BuildTwo(Curr)); 
+                   Next = this.action.BuildTwo(Curr);
+                   if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        queue.add(Next);
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                    } 
                 }
                 }
-            }
-            
-            
-            
+            }    
         }
 
         if (result =="")

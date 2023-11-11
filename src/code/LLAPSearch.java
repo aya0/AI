@@ -90,7 +90,7 @@ public class LLAPSearch{
 			"358,14,25,23,39;" +
 			"5024,20,17,17,38;";
 
-        System.out.println(solve(initialState4,"DF",true));
+        System.out.println(solve(initialState10,"ID",true));
     }
 
 }
