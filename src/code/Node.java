@@ -45,19 +45,6 @@ public int getAS1(){
 public int getAS2(){
     return Heuristic2 +PathCost;
 }
-
-
-
-
-
-// public Node[] getChildren() {
-//     return Children;
-// }
-
-// public void setChildren(Node[] children) {
-//     Children = children;
-// }
-
 public int getDepth() {
     return Depth;
 }

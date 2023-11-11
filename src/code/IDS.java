@@ -33,7 +33,7 @@ public class IDS extends GenericSearch {
             if(this.visualize)
             {
                 System.out.println(this.nodesExpanded);
-                // Curr.getCurrState().print();
+                Curr.getCurrState().print();
             }
             if(Curr.getCurrState().getProsperity()>=100)
             {

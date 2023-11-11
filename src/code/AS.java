@@ -3,6 +3,11 @@ import java.util.*;
 
 public class AS extends GenericSearch{
     int Heuristic;
+
+    public AS(int heuristic){
+        Heuristic = heuristic;
+    }
+
     @Override
     public String Search(String searchProblem, Collection<Node> collection) {
         PriorityQueue<Node> queue = (PriorityQueue<Node>) collection;
@@ -14,10 +19,17 @@ public class AS extends GenericSearch{
         }
         queue.add(this.GenerateInitial(searchProblem));
         Node Curr;
+        int MoneySpent = 0;
+        String result = "";
         while(!queue.isEmpty())
         {
             Curr = queue.remove();
             this.nodesExpanded++;
+            if(this.visualize)
+            {
+                System.out.println(this.nodesExpanded);
+                Curr.getCurrState().print();
+            }
             if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
             {
                 continue;
@@ -25,7 +37,9 @@ public class AS extends GenericSearch{
             else{
                     if(Curr.getCurrState().getProsperity()>=100)
                 {
-                    return "Solution Found";
+                    result = Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +".";
+                    MoneySpent = Curr.getCurrState().getMoneySpent();
+                    break;
                 }
                 else{
                     if(!Curr.getCurrState().isWaiting())
@@ -54,7 +68,13 @@ public class AS extends GenericSearch{
             
         }
 
-        return "’NOSOLUTION’";
+        if (result =="")
+        {
+             return "NOSOLUTION";
+        }
+        else{
+            return result+";"+ MoneySpent +";" +this.nodesExpanded;
+        }
     }
     
     

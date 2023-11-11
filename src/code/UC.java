@@ -21,7 +21,7 @@ public class UC extends GenericSearch{
             if(this.visualize)
             {
                 System.out.println(this.nodesExpanded);
-                // Curr.getCurrState().print();
+                Curr.getCurrState().print();
             }
             if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
             {

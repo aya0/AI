@@ -114,4 +114,14 @@ public class State {
         Prosperity = prosperity;
     }
 
+
+    public void print(){
+        System.out.println(
+        "Prosperity = " + this.getProsperity() + 
+        " Food = " + this.getFoodCount()+
+        " Energy = " + this.getEnergyCount()+
+        " Materials =" + this.getMaterialsCount()+
+        " Money Spent = " + this.getMoneySpent()
+      );
+    }
 }
