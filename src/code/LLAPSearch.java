@@ -1,8 +1,7 @@
 package code;
 import java.util.*;
 public class LLAPSearch{
-    static BFS bfs;
-    DFS dfs;
+
     
     
 
@@ -12,8 +11,8 @@ public class LLAPSearch{
         switch(strategy){
             case "BF":  BFS bfs = new BFS(); bfs.visualize = visualize;result = bfs.Search(initialState,new ArrayDeque<Node>()); break;
             case "DF":  DFS dfs = new DFS(); dfs.visualize = visualize; result = dfs.Search(initialState, new Stack<Node>());break;
-            case "ID":
-            case "UC":
+            case "ID":  IDS ids = new IDS(); ids.visualize = visualize; result = ids.Search(initialState, new Stack<Node>());break;
+            case "UC":  UC uc = new UC(); uc.visualize = visualize; result = uc.Search(initialState,  new PriorityQueue<Node>());break;
             case "GR1":
             case "GR2":
             case "AS1":

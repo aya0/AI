@@ -2,6 +2,9 @@ package code;
 import java.util.*;
 
 public class IDS extends GenericSearch {
+    public IDS(){
+        
+    }
 
     @Override
     public String Search(String searchProblem, Collection<Node> collection) {
@@ -11,7 +14,7 @@ public class IDS extends GenericSearch {
         String Result;
         do {
             stack.push(Root);
-            Result = helper(stack, Depth);
+            Result = this.helper(stack, Depth);
             Depth ++;
 
         }
@@ -27,9 +30,14 @@ public class IDS extends GenericSearch {
         {
             Curr = stack.pop();
             this.nodesExpanded++;
+            if(this.visualize)
+            {
+                System.out.println(this.nodesExpanded);
+                Curr.getCurrState().print();
+            }
             if(Curr.getCurrState().getProsperity()>=100)
             {
-                return "Solution Found";
+                return Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +"."+ Curr.getCurrState().getMoneySpent()+";"+ this.nodesExpanded;
             }
             else
             {
