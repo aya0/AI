@@ -1,3 +1,4 @@
+package code;
 public class ActionAttributes{
     int Amount;
     int[] ResourceConsumption;

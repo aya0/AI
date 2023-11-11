@@ -1,33 +1,58 @@
+package code;
 import java.util.*;
 
-public class DFS extends GenericSearch {
-    
-    public DFS()
-    {
-        super();
+public class IDS extends GenericSearch {
+    public IDS(){
+        
     }
 
-
-    
+    @Override
     public String Search(String searchProblem, Collection<Node> collection) {
         Stack<Node> stack = (Stack<Node>)collection;
-       // queue.add(this.GenerateInitial(searchProblem));
-       stack.push(this.GenerateInitial(searchProblem));
+        Node Root=  this.GenerateInitial(searchProblem);
+        int Depth = 0;
+        String Result;
+        do {
+            stack.push(Root);
+            Result = this.helper(stack, Depth);
+            Depth ++;
+
+        }
+        while(Result.equals("continue") );
+        return Result;
+
+        
+    }
+    private String helper(Stack<Node> stack , int depth){
         Node Curr;
+        boolean Continue = false;
         while(!stack.isEmpty())
         {
             Curr = stack.pop();
             this.nodesExpanded++;
-            if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
+            if(this.visualize)
             {
-                continue;
+                System.out.println(this.nodesExpanded);
+                // Curr.getCurrState().print();
+            }
+            if(Curr.getCurrState().getProsperity()>=100)
+            {
+                return Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +"."+ Curr.getCurrState().getMoneySpent()+";"+ this.nodesExpanded;
+            }
+            else
+            {
+            if(depth==Curr.getDepth()){
+                if(!(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000))
+                {
+                    Continue=true;
+                }
             }
             else
             {
     
-            if(Curr.getCurrState().getProsperity()>=100)
+            if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
             {
-                return "Solution Found";
+                continue;
             }
             else{
                 if(!Curr.getCurrState().isWaiting())
@@ -51,15 +76,19 @@ public class DFS extends GenericSearch {
                 stack.push(this.action.BuildTwo(Curr)); 
             }
             }
+        }
             
         } 
         }
 
-        return "’NOSOLUTION’";
+        if(Continue){
+            return "continue";
+        }
+        else{
+            return "’NOSOLUTION’";        
+        }
+
     }
 
-
-
-    
     
 }

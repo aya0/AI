@@ -1,8 +1,10 @@
+package code;
 import java.util.*;
 
 public abstract class GenericSearch {
     Action action;
     int nodesExpanded;
+    boolean visualize;
     public abstract String Search(String searchProblem, Collection<Node> collection);  
 
     public GenericSearch(){

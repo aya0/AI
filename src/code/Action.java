@@ -1,3 +1,4 @@
+package code;
 public class Action {
     //aa[0]=> energy
     //aa[1]=> food

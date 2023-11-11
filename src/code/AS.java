@@ -1,21 +1,16 @@
-import java.util.Collection;
+package code;
 import java.util.*;
 
-public class GR extends GenericSearch {
+public class AS extends GenericSearch{
     int Heuristic;
-
-    public GR(int heuristic) {
-        Heuristic = heuristic;
-    }
-
     @Override
     public String Search(String searchProblem, Collection<Node> collection) {
         PriorityQueue<Node> queue = (PriorityQueue<Node>) collection;
         if(Heuristic==1){
-            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getHeuristic1));
+            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getAS1));
         }
         else{
-            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getHeuristic2));
+            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getAS2));
         }
         queue.add(this.GenerateInitial(searchProblem));
         Node Curr;
@@ -63,4 +58,7 @@ public class GR extends GenericSearch {
     }
     
     
-}
+
+    }
+    
+

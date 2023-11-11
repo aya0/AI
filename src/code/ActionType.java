@@ -1,3 +1,4 @@
+package code;
 public enum ActionType {
     REQFOOD,
     REQENERGY,

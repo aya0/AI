@@ -1,16 +1,28 @@
+package code;
 import java.util.*;
 
 public class UC extends GenericSearch{
 
+    public UC(){
+        super();
+    }
+
     @Override
     public String Search(String searchProblem, Collection<Node> collection) {
+        String result = "";
         PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(Node::getPriority));
         queue.add(this.GenerateInitial(searchProblem));
         Node Curr;
+        int MoneySpent=0;
         while(!queue.isEmpty())
         {
             Curr = queue.remove();
             this.nodesExpanded++;
+            if(this.visualize)
+            {
+                System.out.println(this.nodesExpanded);
+                // Curr.getCurrState().print();
+            }
             if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
             {
                 continue;
@@ -18,7 +30,9 @@ public class UC extends GenericSearch{
             else{
                     if(Curr.getCurrState().getProsperity()>=100)
                 {
-                    return "Solution Found";
+                    result = Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +".";
+                    MoneySpent = Curr.getCurrState().getMoneySpent();
+                    break;
                 }
                 else{
                     if(!Curr.getCurrState().isWaiting())
@@ -47,9 +61,12 @@ public class UC extends GenericSearch{
             
         }
 
-        return "’NOSOLUTION’";
+        if (result =="")
+        {
+             return "NOSOLUTION";
+        }
+        else{
+            return result+";"+ MoneySpent +";" +this.nodesExpanded;
+        }
     }
     }
-
-    
-
