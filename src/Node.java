@@ -37,6 +37,14 @@ public void setHeuristic2(int heuristic2) {
     Heuristic2 = heuristic2;
 }
 
+public int getAS1(){
+    return Heuristic1+PathCost;
+}
+
+public int getAS2(){
+    return Heuristic2 +PathCost;
+}
+
 
 
 
