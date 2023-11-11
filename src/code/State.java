@@ -116,6 +116,10 @@ public class State {
 
 
     public void print(){
+        if(!(Plan==""))
+        {
+            System.out.println("Action"+ Plan.split(",")[Plan.split(",").length-1]);
+        } 
         System.out.println(
         "Prosperity = " + this.getProsperity() + 
         " Food = " + this.getFoodCount()+
@@ -123,5 +127,9 @@ public class State {
         " Materials =" + this.getMaterialsCount()+
         " Money Spent = " + this.getMoneySpent()
       );
+    }
+
+    public String HashsetString(){
+        return this.getProsperity()+";"+ this.getFoodCount()+";"+this.getEnergyCount()+";"+this.getMaterialsCount()+";"+this.getMoneySpent()+";"+this.isWaiting()+";"+this.getWaitingFor()+";"+this.getWaitingTime();
     }
 }

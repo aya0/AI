@@ -29,12 +29,10 @@ public abstract class GenericSearch {
 // amountRequestEnergy, delayRequestEnergy;
 
 //6
-// priceBUILD1, foodUseBUILD1,
-// materialsUseBUILD1, energyUseBUILD1, prosperityBUILD1;
+// priceBUILD1, foodUseBUILD1,materialsUseBUILD1, energyUseBUILD1, prosperityBUILD1
 
 //7
-// priceBUILD2, foodUseBUILD2,
-// materialsUseBUILD2, energyUseBUILD2, prosperityBUILD1;
+// priceBUILD2, foodUseBUILD2,materialsUseBUILD2, energyUseBUILD2, prosperityBUILD1;
 
 //aa[0]=> energy
     //aa[1]=> food
@@ -45,13 +43,13 @@ public abstract class GenericSearch {
 
     public Node GenerateInitial(String searchProblem){
         String[] split = searchProblem.split(";");
-        String[] initial = split[1].split(",");
-        String[] price = split[2].split(",");
-        String[] FoodData = split[3].split(",");
-        String[] MaterialsData = split[4].split(",");
-        String[] EnergyData = split[5].split(",");
-        String[] BuildOneData = split[6].split(",");
-        String[]BuildTwoData = split[7].split(",");
+        String[] initial = split[1].split(","); // initialF ood, initialM aterials, initialEnergy;
+        String[] price = split[2].split(",");   //unitPriceF ood, unitPriceM aterials, unitPriceEnergy;
+        String[] FoodData = split[3].split(",");// amountRequestF ood, delayRequestF ood;
+        String[] MaterialsData = split[4].split(",");// amountRequestM aterials, delayRequestM aterials;
+        String[] EnergyData = split[5].split(",");// amountRequestEnergy, delayRequestEnergy;
+        String[] BuildOneData = split[6].split(","); // priceBUILD1, foodUseBUILD1,materialsUseBUILD1, energyUseBUILD1, prosperityBUILD1;
+        String[]BuildTwoData = split[7].split(",");//priceBUILD2, foodUseBUILD2,materialsUseBUILD2, energyUseBUILD2, prosperityBUILD1;
 
         int[] empty = {};
         ActionAttributes[] ActionData = new ActionAttributes[6];
@@ -87,12 +85,13 @@ public abstract class GenericSearch {
 
        
         Action action = new Action(ActionData);
+        action.MinActionPrice = PriceForOneOfEach;
         this.action = action;
         action.maxBProsperity = BuildOne.IncreaseInProsperity>BuildTwo.IncreaseInProsperity?BuildOne.IncreaseInProsperity:BuildTwo.IncreaseInProsperity;
         action.minBPrice = priceBuild1>priceBuild2?priceBuild2:priceBuild1;
         action.minRatio = (priceBuild1/BuildOne.IncreaseInProsperity)>(priceBuild2/BuildTwo.IncreaseInProsperity)?(priceBuild2/BuildTwo.IncreaseInProsperity):(priceBuild1/BuildOne.IncreaseInProsperity);
 
-        State s0 = new State(Integer.parseInt(split[0]), Integer.parseInt(initial[0]), Integer.parseInt(initial[1]),Integer.parseInt(initial[2]), 0, false,0,0, "");
+        State s0 = new State(Integer.parseInt(split[0]), Integer.parseInt(initial[0]), Integer.parseInt(initial[2]),Integer.parseInt(initial[1]), 0, false,0,0, "");
         int heuristic1 = ((100-Integer.parseInt(split[0]))/(action.maxBProsperity)*action.minBPrice);
         int heuristic2 = ((100-Integer.parseInt(split[0]))*action.minRatio);
         Node Root = new Node(null, s0, null, 0, 0, heuristic1,heuristic2);

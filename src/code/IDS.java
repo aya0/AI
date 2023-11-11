@@ -37,7 +37,7 @@ public class IDS extends GenericSearch {
             }
             if(Curr.getCurrState().getProsperity()>=100)
             {
-                return Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +"."+ Curr.getCurrState().getMoneySpent()+";"+ this.nodesExpanded;
+                return Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) + Curr.getCurrState().getMoneySpent()+";"+ this.nodesExpanded;
             }
             else
             {

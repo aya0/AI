@@ -38,7 +38,7 @@ public class GR extends GenericSearch {
             else{
                     if(Curr.getCurrState().getProsperity()>=100)
                 {
-                    result = Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +".";
+                    result = Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) ;
                     MoneySpent = Curr.getCurrState().getMoneySpent();
                     break;
                 }

@@ -1,4 +1,5 @@
 package code;
+import java.util.*;
 public class Action {
     //aa[0]=> energy
     //aa[1]=> food
@@ -12,10 +13,13 @@ public class Action {
     int maxBProsperity;
     int minBPrice;
     int minRatio;
+    int MinActionPrice;
+    HashSet<String> hashset;
 
 
     public Action(ActionAttributes[] actionsAttributes) {
         ActionsAttributes = actionsAttributes;
+        hashset = new HashSet<>();
     }
 
     public ActionAttributes[] getActionsAttributes() {
@@ -50,7 +54,7 @@ public class Action {
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[0].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[0].Price;
-        boolean wait = ActionsAttributes[0].Delay==0?true:false;
+        boolean wait = ActionsAttributes[0].Delay==0?false:true;
         if(!wait){
             energy += ActionsAttributes[0].Amount;
 
@@ -74,11 +78,11 @@ public class Action {
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[1].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[1].Price;
-        boolean wait = ActionsAttributes[0].Delay==0?true:false;
+        boolean wait = ActionsAttributes[0].Delay==0?false:true;
         if(!wait){
             food += ActionsAttributes[1].Amount;
 
-        if(food>50) food = 50;
+        if(food>50) {food = 50;}
         }
         
         int prosperity = state.getProsperity();
@@ -99,7 +103,7 @@ public class Action {
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[2].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[2].Price;
-        boolean wait = ActionsAttributes[0].Delay==0?true:false;
+        boolean wait = ActionsAttributes[0].Delay==0?false:true;
         
         if(!wait){
             materials += ActionsAttributes[2].Amount;
@@ -167,8 +171,8 @@ public class Action {
     {
         State state = n.getCurrState();
         int food = state.getFoodCount()-ActionsAttributes[4].ResourceConsumption[0];
-        int energy = state.getEnergyCount()-ActionsAttributes[4].ResourceConsumption[1];
-        int materials = state.getMaterialsCount()-ActionsAttributes[4].ResourceConsumption[2];
+        int energy = state.getEnergyCount()-ActionsAttributes[4].ResourceConsumption[2];
+        int materials = state.getMaterialsCount()-ActionsAttributes[4].ResourceConsumption[1];
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[4].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[4].Price;
@@ -213,8 +217,8 @@ public class Action {
     {
         State state = n.getCurrState();
         int food = state.getFoodCount()-ActionsAttributes[5].ResourceConsumption[0];
-        int energy = state.getEnergyCount()-ActionsAttributes[5].ResourceConsumption[1];
-        int materials = state.getMaterialsCount()-ActionsAttributes[5].ResourceConsumption[2];
+        int energy = state.getEnergyCount()-ActionsAttributes[5].ResourceConsumption[2];
+        int materials = state.getMaterialsCount()-ActionsAttributes[5].ResourceConsumption[1];
         int depth = n.getDepth()+1;
         int pathCost = n.getPathCost()+ ActionsAttributes[5].Price;
         int moneySpent = state.getMoneySpent() + ActionsAttributes[5].Price;

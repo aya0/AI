@@ -21,7 +21,7 @@ public class BFS extends GenericSearch{
         String result ="";
         Queue<Node> queue = (Queue<Node>) collection;
         queue.add(this.GenerateInitial(searchProblem));
-        Node Curr;
+        Node Curr,Next;
         int MoneySpent = 0;
         while(!queue.isEmpty())
         {
@@ -32,36 +32,67 @@ public class BFS extends GenericSearch{
                 System.out.println(this.nodesExpanded);
                 Curr.getCurrState().print();
             }
-            if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
+            if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()>=100000)
             {
                 continue;
             }
             else{
                     if(Curr.getCurrState().getProsperity()>=100)
                 {
-                    result = Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +".";
+                    result = Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1);
                     MoneySpent = Curr.getCurrState().getMoneySpent();
                     break;
                 }
                 else{
                     if(!Curr.getCurrState().isWaiting())
                 {
-                    queue.add(this.action.RequestFoodAction(Curr));
-                    queue.add(this.action.RequestMaterialAction(Curr));
-                    queue.add(this.action.RequestEnergyAction(Curr));
+                    Next = this.action.RequestFoodAction(Curr);
+                    
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                        queue.add(Next);
+                    }
+                    Next = this.action.RequestMaterialAction(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                        queue.add(Next);
+                    }
+                    Next = this.action.RequestEnergyAction(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                        queue.add(Next);
+                    }
                 }
-                queue.add(this.action.Wait(Curr));
+                Next = this.action.Wait(Curr);
+                if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                {
+                    queue.add(Next);
+                    this.action.hashset.add(Next.getCurrState().HashsetString());
+                }
                 ActionAttributes[] ActionData= this.action.getActionsAttributes();
                 //For build1 we have to check that we have enough of all the available resources and enough money for the build
                 State s = Curr.getCurrState();
 
                 if(s.getFoodCount()>ActionData[4].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[4].ResourceConsumption[1] && s.getEnergyCount()>ActionData[4].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[4].Price<100000))
                 {
-                    queue.add(this.action.BuildOne(Curr)); 
+                    Next = this.action.BuildOne(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                        queue.add(Next);
+                    } 
                 }
                 if(s.getFoodCount()>ActionData[5].ResourceConsumption[0] && s.getMaterialsCount()>ActionData[5].ResourceConsumption[1] && s.getEnergyCount()>ActionData[5].ResourceConsumption[2]&&(s.getMoneySpent()+ActionData[5].Price<100000))
                 {
-                    queue.add(this.action.BuildTwo(Curr)); 
+                    Next = this.action.BuildTwo(Curr);
+                    if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
+                    {
+                        this.action.hashset.add(Next.getCurrState().HashsetString());
+                        queue.add(Next);
+                    } 
                 }
                 }
             }
