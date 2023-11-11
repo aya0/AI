@@ -130,6 +130,6 @@ public class State {
     }
 
     public String HashsetString(){
-        return this.getProsperity()+";"+ this.getFoodCount()+";"+this.getEnergyCount()+";"+this.getMaterialsCount()+";"+this.getMoneySpent()+";"+this.isWaiting()+";"+this.getWaitingFor()+";"+this.getWaitingTime();
+        return String.valueOf(this.getProsperity()+";"+ this.getFoodCount()+";"+this.getEnergyCount()+";"+this.getMaterialsCount()+";"+this.isWaiting()+";"+this.getWaitingFor()+";"+this.getWaitingTime());
     }
 }
