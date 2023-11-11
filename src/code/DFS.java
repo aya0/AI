@@ -14,11 +14,18 @@ public class DFS extends GenericSearch {
         Stack<Node> stack = (Stack<Node>)collection;
        // queue.add(this.GenerateInitial(searchProblem));
        stack.push(this.GenerateInitial(searchProblem));
+       String result = "";
+       int MoneySpent = 0;
         Node Curr;
         while(!stack.isEmpty())
         {
             Curr = stack.pop();
             this.nodesExpanded++;
+            if(this.visualize)
+            {
+                System.out.println(this.nodesExpanded);
+                Curr.getCurrState().print();
+            }
             if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
             {
                 continue;
@@ -27,8 +34,10 @@ public class DFS extends GenericSearch {
             {
     
             if(Curr.getCurrState().getProsperity()>=100)
-            {
-                return "Solution Found";
+            {   
+                result = Curr.getCurrState().getPlan().substring(0, Curr.getCurrState().getPlan().length() - 1) +".";
+                MoneySpent = Curr.getCurrState().getMoneySpent();
+                break;
             }
             else{
                 if(!Curr.getCurrState().isWaiting())
@@ -55,8 +64,14 @@ public class DFS extends GenericSearch {
             
         } 
         }
-
-        return "’NOSOLUTION’";
+        if (result =="")
+        {
+             return "NOSOLUTION";
+        }
+        else{
+            return result+";"+ MoneySpent +";" +this.nodesExpanded;
+        }
+    
     }
 
 
