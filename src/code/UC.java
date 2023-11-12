@@ -10,7 +10,7 @@ public class UC extends GenericSearch{
     @Override
     public String Search(String searchProblem, Collection<Node> collection) {
         String result = "";
-        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(Node::getPriority));
+        PriorityQueue<Node> queue = new PriorityQueue<>(Comparator.comparingInt(Node::getPriority).thenComparingLong(Node::getInsertionTime));
         queue.add(this.GenerateInitial(searchProblem));
         Node Curr,Next;
         int MoneySpent=0;

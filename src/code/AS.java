@@ -12,10 +12,10 @@ public class AS extends GenericSearch{
     public String Search(String searchProblem, Collection<Node> collection) {
         PriorityQueue<Node> queue = (PriorityQueue<Node>) collection;
         if(Heuristic==1){
-            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getAS1));
+            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getAS1).thenComparingLong(Node::getInsertionTime));
         }
         else{
-            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getAS2));
+            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getAS2).thenComparingLong(Node::getInsertionTime));
         }
         queue.add(this.GenerateInitial(searchProblem));
         Node Curr, Next;

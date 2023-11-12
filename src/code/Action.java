@@ -90,7 +90,7 @@ public class Action {
         int waitingFor = wait?1:0;
         String plan = state.getPlan()+"RequestFood,";
         State newState = new State(prosperity, food, energy, materials, moneySpent,wait,ActionsAttributes[1].Delay,waitingFor, plan);
-        System.out.println("AAAAAAAAAAA" +ActionsAttributes[1].Delay);
+        //System.out.println("AAAAAAAAAAA" +ActionsAttributes[1].Delay);
         int heuristic1 = ((100-prosperity)/(maxBProsperity)*minBPrice);
         int heuristic2 = ((100-prosperity)*minRatio);
     return new Node(n, newState, ActionType.REQFOOD , pathCost, depth,heuristic1,heuristic2);
@@ -134,7 +134,7 @@ public class Action {
         int moneySpent = state.getMoneySpent() + ActionsAttributes[3].Price;
         int prosperity = state.getProsperity();
         int waitingtime = state.getWaitingTime();
-        System.out.println("OOOOOOOOO"+ waitingtime);
+        //System.out.println("OOOOOOOOO"+ waitingtime);
 
         boolean waiting = state.isWaiting();
         int waitingFor=0;
@@ -188,7 +188,7 @@ public class Action {
             waitingtime--;
             if(waitingtime==0)
             {
-                System.out.println("Yes da5alt hena");
+                //System.out.println("Yes da5alt hena");
                 waiting=false;
                 switch(state.getWaitingFor())
                 {

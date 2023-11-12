@@ -11,6 +11,7 @@ private int Depth;
 // private Node[] Children;
 private int Heuristic1;
 private int Heuristic2;
+long insertionTime;
 
 public Node(Node parent, State currState, ActionType action, int pathCost, int depth, int heuristic1, int heuristic2) {
     Parent = parent;
@@ -89,6 +90,15 @@ public int getPriority(){
     return PathCost;
 }
 
-
+public long getInsertionTime()
+{
+    return insertionTime;
+}
+// public int compareTo(Node other) {
+//     if (this.Heuristic1!= other.Heuristic1) {
+//         return Integer.compare(this.Heuristic1, other.Heuristic1);
+//     }
+//     return Long.compare(this.insertionTime, other.insertionTime);
+// }
 
 }

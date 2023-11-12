@@ -13,12 +13,13 @@ public class GR extends GenericSearch {
     public String Search(String searchProblem, Collection<Node> collection) {
         PriorityQueue<Node> queue = (PriorityQueue<Node>) collection;
         if(Heuristic==1){
-            queue = new PriorityQueue<>(Comparator.comparingInt(Node::getHeuristic1));
-        }
+            queue = new PriorityQueue<>(
+                Comparator.<Node>comparingInt(Node::getHeuristic1).thenComparingLong(Node::getInsertionTime));
+               }
         else{
             if(Heuristic==2)
             {
-                queue = new PriorityQueue<>(Comparator.comparingInt(Node::getHeuristic2));
+                queue = new PriorityQueue<>(Comparator.comparingInt(Node::getHeuristic2).thenComparingLong(Node::getInsertionTime));
             }
            
         }
@@ -28,6 +29,14 @@ public class GR extends GenericSearch {
         String result = "";
         while(!queue.isEmpty())
         {
+            //FOR TRACING ONLY!!!
+            // for (Node item : queue) {
+            //     System.out.println(item.getAction()+"  " + item.getHeuristic1());
+            //     if(item.getParent()!=null)
+            //     {
+            //         System.out.println(item.getParent().getAction());
+            //     }
+            // }
             Curr = queue.remove();
             this.nodesExpanded++;
             if(this.visualize)
@@ -35,10 +44,11 @@ public class GR extends GenericSearch {
                 System.out.println(this.nodesExpanded);
                 Curr.getCurrState().print();
                 //for TRACING ONLY!!
-                if(this.nodesExpanded==50)
-                {
-                    break;
-                }
+                // if(this.nodesExpanded==15)
+                // {
+                //     break;
+                // }
+                
             }
             if(Curr.getCurrState().getEnergyCount()==0||Curr.getCurrState().getFoodCount()==0||Curr.getCurrState().getMaterialsCount()==0||Curr.getCurrState().getMoneySpent()==100000)
             {
@@ -57,13 +67,19 @@ public class GR extends GenericSearch {
                     Next = this.action.RequestFoodAction(Curr);
                     if (!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        //Trial
+                        Next.insertionTime= System.nanoTime();
                         queue.add(Next);
                         this.action.hashset.add(Next.getCurrState().HashsetString());
+                        
+
                     }
                     
                     Next = this.action.RequestMaterialAction(Curr);
                     if (!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        //Trial
+                        Next.insertionTime= System.nanoTime();
                         queue.add(Next);
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                     }
@@ -71,6 +87,8 @@ public class GR extends GenericSearch {
                     Next = this.action.RequestEnergyAction(Curr);
                     if (!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        //Trial
+                        Next.insertionTime= System.nanoTime();
                         queue.add(Next);
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                     }
@@ -78,6 +96,8 @@ public class GR extends GenericSearch {
                 Next = this.action.Wait(Curr);
                 if (!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        //Trial
+                        Next.insertionTime= System.nanoTime();
                         queue.add(Next);
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                     }
@@ -90,6 +110,8 @@ public class GR extends GenericSearch {
                     Next = this.action.BuildOne(Curr);
                     if (!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        //Trial
+                        Next.insertionTime= System.nanoTime();
                         queue.add(Next);
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                     } 
@@ -99,6 +121,8 @@ public class GR extends GenericSearch {
                     Next = this.action.BuildTwo(Curr);
                     if (!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        //Trial
+                        Next.insertionTime= System.nanoTime();
                         queue.add(Next);
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                     } 
