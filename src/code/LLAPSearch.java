@@ -1,9 +1,11 @@
 package code;
 import java.util.*;
-public class LLAPSearch{
+public class LLAPSearch extends GenericSearch{ 
 
-    
-    
+    @Override
+    public String Search(String searchProblem, Collection<Node> collection) {
+        throw new UnsupportedOperationException("Unimplemented method 'Search'");
+    }
 
     public static String solve(String initialState, String strategy, boolean visualize)
     {
@@ -92,5 +94,8 @@ public class LLAPSearch{
 
         System.out.println(solve(initialState4,"GR1",true));
     }
+
+
+
 
 }
