@@ -40,18 +40,21 @@ public class UC extends GenericSearch{
                     Next = this.action.RequestFoodAction(Curr); 
                     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        Next.insertionTime= System.nanoTime();
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                         queue.add(this.action.RequestFoodAction(Curr));
                     }
                     Next = this.action.RequestMaterialAction(Curr);
                     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        Next.insertionTime= System.nanoTime();
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                         queue.add(this.action.RequestMaterialAction(Curr));
                     }
                     Next = this.action.RequestEnergyAction(Curr);
                     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        Next.insertionTime= System.nanoTime();
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                         queue.add(this.action.RequestEnergyAction(Curr));
                     }    
@@ -59,6 +62,7 @@ public class UC extends GenericSearch{
                 Next = this.action.Wait(Curr);
                 if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                 {
+                    Next.insertionTime= System.nanoTime();
                     queue.add(this.action.Wait(Curr));
                     this.action.hashset.add(Next.getCurrState().HashsetString());
                 }
@@ -72,6 +76,7 @@ public class UC extends GenericSearch{
                     Next = this.action.BuildOne(Curr);
                     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        Next.insertionTime= System.nanoTime();
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                         queue.add(this.action.BuildOne(Curr)); 
                     }
@@ -82,6 +87,7 @@ public class UC extends GenericSearch{
                     Next = this.action.BuildTwo(Curr);
                     if(!this.action.hashset.contains(Next.getCurrState().HashsetString()))
                     {
+                        Next.insertionTime= System.nanoTime();
                         this.action.hashset.add(Next.getCurrState().HashsetString());
                         queue.add(this.action.BuildTwo(Curr)); 
                     }
